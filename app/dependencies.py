@@ -1,7 +1,7 @@
 from fastapi.templating import Jinja2Templates
 import tomllib
 
-templates = Jinja2Templates(directory="app/templates")
+templates = Jinja2Templates(directory="templates")
 
 try:
 	with open("app/conf/config.toml", "rb") as f:
