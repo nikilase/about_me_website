@@ -16,3 +16,13 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 @app.get("/")
 async def root(request: Request):
 	return templates.TemplateResponse("root.html", {"request": request})
+
+
+@app.get("/favicon.ico")
+async def favicon():
+	return FileResponse("static/favicon/favicon.ico")
+
+
+@app.get("/robots.txt")
+async def robots():
+	return FileResponse("static/robots.txt", media_type="text")

@@ -1,0 +1,6 @@
+User-agent: Googlebot
+Disallow: /static/
+Allow: /
+
+User-agent: *
+Disallow: /
