@@ -20,7 +20,7 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         response.headers["Content-Security-Policy"] = (
             "default-src 'self'; "
             "script-src 'self' https://cdn.jsdelivr.net; "
-            f"style-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; 'nonce-{nonce}'; "
+            f"style-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com 'nonce-{nonce}'; "
             "font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com; "
             "img-src 'self'; "
             "object-src 'none'; "
@@ -32,7 +32,7 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
             "frame-src 'self'; "
             "worker-src 'self'; "
             "manifest-src 'self'; "
-            "prefetch-src 'self'; "
+            "prefetch-src 'self';"
         )
         response.headers["X-Frame-Options"] = "SAMEORIGIN"
         response.headers["X-Content-Type-Options"] = "nosniff"
