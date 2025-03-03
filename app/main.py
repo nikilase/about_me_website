@@ -20,7 +20,7 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         response.headers["Content-Security-Policy"] = (
             "default-src 'self'; "
             "script-src 'self' https://cdn.jsdelivr.net; "
-            "style-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; 'nonce-{nonce}'; "
+            f"style-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; 'nonce-{nonce}'; "
             "font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com; "
             "img-src 'self'; "
             "object-src 'none'; "
