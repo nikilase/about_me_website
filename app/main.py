@@ -36,7 +36,9 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
             "worker-src 'self'; "
             "manifest-src 'self';"
         )
-        response.headers["Content-Security-Policy"] = csp.encode('ascii', 'ignore').decode('ascii')
+        response.headers["Content-Security-Policy"] = csp.encode(
+            "ascii", "ignore"
+        ).decode("ascii")
         response.headers["X-Frame-Options"] = "SAMEORIGIN"
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["Referrer-Policy"] = "no-referrer"
