@@ -20,7 +20,7 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         nonce = secrets.token_hex(16)
         request.state.nonce = nonce
         response: Response = await call_next(request)
-        response.headers["Content-Security-Policy"] = (
+        csp = (
             "default-src 'self'; "
             "script-src 'self' https://cdn.jsdelivr.net; "
             f"style-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com 'nonce-{nonce}'; "
@@ -34,13 +34,13 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
             "media-src 'self'; "
             "frame-src 'self'; "
             "worker-src 'self'; "
-            "manifest-src 'self'; "
+            "manifest-src 'self';"
         )
+        response.headers["Content-Security-Policy"] = csp.encode('ascii', 'ignore').decode('ascii')
         response.headers["X-Frame-Options"] = "SAMEORIGIN"
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["Referrer-Policy"] = "no-referrer"
         response.headers["Permissions-Policy"] = "geolocation=(), microphone=()"
-        response.headers["X-Nonce"] = nonce
         return response
 
 
