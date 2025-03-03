@@ -1,10 +1,12 @@
 import secrets
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
-from fastapi.responses import FileResponse, Response
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request
+from starlette.responses import Response
 
 from app.dependencies import server_config, templates
 
@@ -16,6 +18,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         nonce = secrets.token_hex(16)
+        request.state.nonce = nonce
         response: Response = await call_next(request)
         response.headers["Content-Security-Policy"] = (
             "default-src 'self'; "
@@ -32,7 +35,6 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
             "frame-src 'self'; "
             "worker-src 'self'; "
             "manifest-src 'self'; "
-            "prefetch-src 'self';"
         )
         response.headers["X-Frame-Options"] = "SAMEORIGIN"
         response.headers["X-Content-Type-Options"] = "nosniff"
@@ -47,7 +49,8 @@ app.add_middleware(SecurityHeadersMiddleware)
 
 @app.get("/")
 async def root(request: Request):
-    return templates.TemplateResponse("root.html", {"request": request})
+    nonce = request.state.nonce
+    return templates.TemplateResponse("root.html", {"request": request, "nonce": nonce})
 
 
 @app.get("/favicon.ico")

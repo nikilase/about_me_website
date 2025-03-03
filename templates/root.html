@@ -20,9 +20,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href='https://fonts.googleapis.com/css?family=Viga' rel='stylesheet'>
 
-    <style nonce="{{ request.headers['X-Nonce'] }}">
+    <style nonce="{{ nonce }}">
         body {
             font-family: Viga, sans-serif;
+        }
+
+        .txt_align_center {
+            text-align: center;
         }
 
         .my-link {
@@ -51,7 +55,7 @@
 <main>
     <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
         <h1>Niklas Eichenberg</h1>
-        <p style="text-align: center;">
+        <p class="txt_align_center">
             Student of M.Sc. Computer Science at TU Ilmenau
             <br>
             System Administrator / System Analyst at Fernco GmbH
