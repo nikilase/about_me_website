@@ -1,3 +1,5 @@
+import secrets
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import FileResponse, Response
@@ -13,6 +15,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
+        nonce = secrets.token_hex(16)
         response: Response = await call_next(request)
         response.headers["Content-Security-Policy"] = (
             "default-src 'self'; "
@@ -37,6 +40,7 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["Referrer-Policy"] = "no-referrer"
         response.headers["Permissions-Policy"] = "geolocation=(), microphone=()"
+        response.headers["X-Nonce"] = nonce
         return response
 
 
