@@ -63,3 +63,8 @@ async def favicon():
 @app.get("/robots.txt")
 async def robots():
     return FileResponse("static/robots.txt", media_type="text")
+
+
+@app.get("/ads.txt")
+async def ads():
+    return FileResponse("static/ads.txt", media_type="text")
