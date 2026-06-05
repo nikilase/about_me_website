@@ -52,7 +52,9 @@ app.add_middleware(SecurityHeadersMiddleware)
 @app.get("/")
 async def root(request: Request):
     nonce = request.state.nonce
-    return templates.TemplateResponse("root.html", {"request": request, "nonce": nonce})
+    return templates.TemplateResponse(
+        request=request, name="root.html", context={"nonce": nonce}
+    )
 
 
 @app.get("/favicon.ico")
